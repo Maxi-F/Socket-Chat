@@ -16,7 +16,8 @@ socket.on('connect', function() {
     console.log('Connected to Server');
 
     socket.emit('enterChat', user, function(res) {
-        console.log("connected users: ", res);
+        //console.log("connected users: ", res);
+        renderUsers(res);
     })
 });
 
@@ -25,20 +26,11 @@ socket.on('disconnect', function() {
     console.log('Disconnected from Server');
 
 });
-/*
-socket.emit('sendMessage', {
-    user: 'Fernando',
-    message: 'Hola Mundo'
-}, function(resp) {
-    console.log("server's response: ", resp);
-});
-*/
 
 // listen info from server
 socket.on('sendMessage', function(message) {
-
-    console.log('Server:', message);
-
+    renderMessages(message, false);
+    scrollBottom();
 });
 
 // private messages
@@ -48,9 +40,5 @@ socket.on('privateMessage', function(message) {
 
 // listen user changes (User connects or disconects from chatroom)
 socket.on('peopleList', function(people) {
-    console.log(people);
+    renderUsers(people);
 })
-
-socket.on('createMessage', function(message) {
-    console.log("Server: ", message);
-});

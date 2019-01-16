@@ -23,14 +23,17 @@ io.on('connection', (client) => {
 
         users.addPerson(client.id, data.name, data.chatroom);
         callback(users.getPeopleByRoom(data.chatroom));
-
+        client.broadcast.to(data.chatroom).emit('sendMessage', createMessage('Admin', `${data.name} Connected to Chat`))
         client.broadcast.to(data.chatroom).emit('peopleList', users.getPeopleByRoom(data.chatroom));
     })
 
-    client.on('sendMessage', (data) => {
+    client.on('sendMessage', (data, callback) => {
         let person = users.getPerson(client.id);
         let message = createMessage(person.name, data.message);
+
         client.broadcast.to(person.chatroom).emit('sendMessage', message);
+
+        callback(message);
     })
 
     client.on('privateMessage', data => {
@@ -42,7 +45,7 @@ io.on('connection', (client) => {
     client.on('disconnect', () => {
         let deletedPerson = users.deletePerson(client.id);
         if (deletedPerson) {
-            client.broadcast.to(deletedPerson.chatroom).emit('createMessage', createMessage('Admin', `${deletedPerson.name} Disconnected from Chat`))
+            client.broadcast.to(deletedPerson.chatroom).emit('sendMessage', createMessage('Admin', `${deletedPerson.name} Disconnected from Chat`))
             client.broadcast.to(deletedPerson.chatroom).emit('peopleList', users.getPeopleByRoom(deletedPerson.chatroom));
         }
     });
