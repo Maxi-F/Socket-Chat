@@ -1,8 +1,8 @@
 const { io } = require('../server');
-const { User } = require('../classes/users');
+const { SocketUsers } = require('../classes/users');
 const { createMessage } = require('../utils/utils')
 
-const users = new User();
+const users = new SocketUsers();
 
 io.on('connection', (client) => {
 

@@ -1,4 +1,4 @@
-class User {
+class SocketUsers {
     constructor() {
         this.people = [];
     }
@@ -38,5 +38,5 @@ class User {
 }
 
 module.exports = {
-    User
+    SocketUsers
 }

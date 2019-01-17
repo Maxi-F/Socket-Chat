@@ -16,8 +16,7 @@ socket.on('connect', function() {
     console.log('Connected to Server');
 
     socket.emit('enterChat', user, function(res) {
-        //console.log("connected users: ", res);
-        renderUsers(res);
+        console.log("connected users: ", res);
     })
 });
 
@@ -29,8 +28,7 @@ socket.on('disconnect', function() {
 
 // listen info from server
 socket.on('sendMessage', function(message) {
-    renderMessages(message, false);
-    scrollBottom();
+    console.log(message);
 });
 
 // private messages
@@ -38,7 +36,7 @@ socket.on('privateMessage', function(message) {
     console.log('Private message: ', message);
 })
 
-// listen user changes (User connects or disconects from chatroom)
+// listen user changes (SocketUsers connects or disconects from chatroom)
 socket.on('peopleList', function(people) {
-    renderUsers(people);
+    console.log(people);
 })
